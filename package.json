@@ -1,0 +1,22 @@
+{
+  "name": "API_paymode_automated",
+  "version": "1.0.0",
+  "description": "Automated testing project with Cypress",
+  "main": "index.js",
+  "scripts": {
+    "test": "cypress run",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
+  },
+  "keywords": [
+    "cypress",
+    "testing",
+    "automation"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^15.5.0",
+    "dotenv": "^17.2.3"
+  }
+}
