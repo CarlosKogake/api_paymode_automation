@@ -7,19 +7,37 @@
 // commands please read more here:
 // https://on.cypress.io/custom-commands
 // ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+/**
+ * Custom command para realizar login e retornar o token de autenticação
+ * @returns {string} Token de acesso
+ */
+Cypress.Commands.add('login', () => {
+  const loginBody = {
+    username: Cypress.env('username'),
+    secret: Cypress.env('password'),
+    partner: Cypress.env('partner')
+  }
+
+  return cy.request({
+    method: 'POST',
+    url: 'https://api.sandbox.paymodetech.com.br/auth/oauth2/userwhitelabelcredentials',
+    body: loginBody,
+    failOnStatusCode: false
+  }).then((response) => {
+    if (response.status === 401) {
+      throw new Error(`Erro 401 - Credenciais inválidas. Verifique se as credenciais no arquivo .env estão corretas:
+      - Username: ${Cypress.env('username')}
+      - Password: ${Cypress.env('password')}
+      - Partner: ${Cypress.env('partner')}
+      
+      Se as credenciais estão corretas, verifique se a API não mudou ou se há algum problema de conectividade.`)
+    }
+    expect(response.status).to.eq(200)
+    expect(response.body).to.have.property('access_token')
+    
+    // Usa cy.wrap() para manter o encadeamento assíncrono correto
+    const token = response.body.access_token
+    return cy.log(`Token obtido: ${token}`).then(() => token)
+  })
+})
