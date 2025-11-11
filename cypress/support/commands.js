@@ -21,7 +21,7 @@ Cypress.Commands.add('login', () => {
 
   return cy.request({
     method: 'POST',
-    url: 'https://api.sandbox.paymodetech.com.br/auth/oauth2/userwhitelabelcredentials',
+    url: 'https://api.paymodetech.com.br/auth/oauth2/userwhitelabelcredentials',
     body: loginBody,
     failOnStatusCode: false
   }).then((response) => {

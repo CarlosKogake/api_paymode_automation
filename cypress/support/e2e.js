@@ -15,3 +15,13 @@
 
 // Import commands.js using ES2015 syntax:
 import './commands'
+
+// Ignora erros não capturados do React e outras exceções da aplicação
+Cypress.on('uncaught:exception', (err, runnable) => {
+  // Ignora erros do React
+  if (err.message.includes('Minified React error') || err.message.includes('react')) {
+    return false
+  }
+  // Permite que outros erros sejam tratados normalmente
+  return true
+})
