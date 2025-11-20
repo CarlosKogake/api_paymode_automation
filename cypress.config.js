@@ -20,6 +20,7 @@ module.exports = defineConfig({
       username: process.env.USERNAME,
       password: process.env.PASSWORD,
       partner: process.env.PARTNER,
+      ACCOUNT_ID: process.env.ACCOUNT_ID,
       expectedAccountBranch: process.env.EXPECTED_ACCOUNT_BRANCH,
       expectedAccountId: process.env.EXPECTED_ACCOUNT_ID,
       expectedAccountNumber: process.env.EXPECTED_ACCOUNT_NUMBER,

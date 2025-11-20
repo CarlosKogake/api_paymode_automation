@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 describe('Teste de Deleção de Chave PIX', () => {
   let token
-  const accountId = 'e800d965-37a1-4da1-b399-d4057a84eafc'
+  const accountId = `${Cypress.env('ACCOUNT_ID')}`
 
   before(() => {
     cy.login().then((accessToken) => {
@@ -11,17 +11,7 @@ describe('Teste de Deleção de Chave PIX', () => {
 
   it('Deleta a chave PIX', () => {
     // Primeiro, busca as chaves PIX para obter o ID
-    cy.request({
-      method: 'GET',
-      url: `${Cypress.env('apiBaseUrl')}/whitelabel/pixdict/${accountId}/entries`,
-      headers: {
-        Authorization: `${token}`,
-        Partner: `${Cypress.env('partner')}`,
-        accountId: accountId
-      }
-    }).then((getResponse) => {
-      expect(getResponse.status).to.eq(200)
-      expect(getResponse.body).to.be.an('array')
+    cy.getPixKeys(token).then((getResponse) => {
       expect(getResponse.body.length).to.be.greaterThan(0, 'Deve existir pelo menos uma chave PIX')
       
       // Pega o ID da primeira (e única) chave

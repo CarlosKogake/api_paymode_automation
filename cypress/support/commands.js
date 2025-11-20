@@ -41,3 +41,26 @@ Cypress.Commands.add('login', () => {
     return cy.log(`Token obtido: ${token}`).then(() => token)
   })
 })
+/**
+ * Custom command para buscar todas as chaves PIX de uma conta
+ * Utiliza automaticamente o ACCOUNT_ID configurado no .env
+ * @param {string} token - Token de autenticação
+ * @returns {Object} Response com a lista de chaves PIX
+ */
+Cypress.Commands.add('getPixKeys', (token) => {
+  const accountId = `${Cypress.env('ACCOUNT_ID')}`
+  
+  return cy.request({
+    method: 'GET',
+    url: `${Cypress.env('apiBaseUrl')}/whitelabel/pixdict/${accountId}/entries`,
+    headers: {
+      Authorization: `${token}`,
+      Partner: `${Cypress.env('partner')}`,
+      accountId: accountId
+    }
+  }).then((response) => {
+    expect(response.status).to.eq(200)
+    console.log(`Encontradas ${response.body.length} chave(s) PIX`)
+    return response
+  })
+})
