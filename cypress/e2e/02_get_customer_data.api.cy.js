@@ -3,14 +3,14 @@ describe('Teste de Obtenção de Dados do Cliente', () => {
   let token
 
   before(() => {
-    // Reutiliza o comando de login antes de executar os testes
+
     cy.login().then((accessToken) => {
       token = accessToken
     })
   })
 
   it('Acessa endpoint protegido e valida dados do cliente', () => {
-    // Usa o token no header e as variáveis de ambiente para construir a URL
+
     cy.request({
       method: 'GET',
       url: `${Cypress.env('apiBaseUrl')}${Cypress.env('customerDataEndpoint')}/${Cypress.env('partner')}/${Cypress.env('username')}`,

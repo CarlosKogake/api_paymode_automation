@@ -36,14 +36,11 @@ Cypress.Commands.add('login', () => {
     expect(response.status).to.eq(200)
     expect(response.body).to.have.property('access_token')
     
-    // Usa cy.wrap() para manter o encadeamento assíncrono correto
     const token = response.body.access_token
     return cy.log(`Token obtido: ${token}`).then(() => token)
   })
 })
 /**
- * Custom command para buscar todas as chaves PIX de uma conta
- * Utiliza automaticamente o ACCOUNT_ID configurado no .env
  * @param {string} token - Token de autenticação
  * @returns {Object} Response com a lista de chaves PIX
  */
